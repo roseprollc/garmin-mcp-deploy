@@ -13,12 +13,18 @@
 	@mcp path /{$MCP_SECRET}/mcp /{$MCP_SECRET}/mcp/*
 	handle @mcp {
 		uri strip_prefix /{$MCP_SECRET}
-		reverse_proxy 127.0.0.1:8000
+		reverse_proxy 127.0.0.1:8000 {
+			# Present localhost to the backend so its DNS-rebinding
+			# protection accepts requests that arrive via a public host.
+			header_up Host {upstream_hostport}
+		}
 	}
 
 	# Platform health check (no secret needed, exposes nothing sensitive).
 	handle /healthz {
-		reverse_proxy 127.0.0.1:8000
+		reverse_proxy 127.0.0.1:8000 {
+			header_up Host {upstream_hostport}
+		}
 	}
 
 	# Everything else is invisible.
