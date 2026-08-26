@@ -1,0 +1,6 @@
+.git
+README.md
+garmin_tokens.json
+.garminconnect*
+.env
+.env.*

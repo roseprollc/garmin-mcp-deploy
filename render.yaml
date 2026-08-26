@@ -1,0 +1,17 @@
+# Render blueprint. In the dashboard: New + > Blueprint, point it at this repo.
+# After the service exists, add the Garmin token as a Secret File (see README).
+services:
+  - type: web
+    name: garmin-mcp
+    runtime: docker
+    plan: starter          # $7/mo, stays warm. Use "free" to trial (spins down when idle).
+    healthCheckPath: /healthz
+    envVars:
+      - key: MCP_SECRET     # Render generates a strong random value; it is never in this repo.
+        generateValue: true
+      - key: GARMIN_MCP_TRANSPORT
+        value: streamable-http
+      - key: GARMIN_MCP_HOST
+        value: 127.0.0.1
+      - key: GARMIN_MCP_PORT
+        value: "8000"

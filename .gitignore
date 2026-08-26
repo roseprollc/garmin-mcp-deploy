@@ -1,0 +1,6 @@
+# NEVER commit Garmin tokens or secrets.
+garmin_tokens.json
+.garminconnect*
+*.token
+.env
+.env.*

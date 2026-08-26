@@ -1,0 +1,25 @@
+# Render terminates HTTPS at its edge, so Caddy just serves plain HTTP on $PORT.
+{
+	admin off
+	auto_https off
+}
+
+:{$PORT} {
+	# Only a request whose path starts with the secret reaches the MCP server.
+	# e.g.  https://<app>.onrender.com/<MCP_SECRET>/mcp
+	@mcp path /{$MCP_SECRET}/mcp /{$MCP_SECRET}/mcp/*
+	handle @mcp {
+		uri strip_prefix /{$MCP_SECRET}
+		reverse_proxy 127.0.0.1:8000
+	}
+
+	# Platform health check (no secret needed, exposes nothing sensitive).
+	handle /healthz {
+		reverse_proxy 127.0.0.1:8000
+	}
+
+	# Everything else is invisible.
+	handle {
+		respond 404
+	}
+}
