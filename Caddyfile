@@ -5,6 +5,9 @@
 }
 
 :{$PORT} {
+	# Don't advertise the server software to scanners.
+	header -Server
+
 	# Only a request whose path starts with the secret reaches the MCP server.
 	# e.g.  https://<app>.onrender.com/<MCP_SECRET>/mcp
 	@mcp path /{$MCP_SECRET}/mcp /{$MCP_SECRET}/mcp/*
