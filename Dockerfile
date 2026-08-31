@@ -6,7 +6,7 @@ FROM python:3.12-slim
 # --- Caddy (static binary; no apt repo dance) ---
 ARG CADDY_VERSION=2.8.4
 RUN apt-get update \
- && apt-get install -y --no-install-recommends curl ca-certificates \
+ && apt-get install -y --no-install-recommends curl ca-certificates git \
  && curl -fsSL "https://github.com/caddyserver/caddy/releases/download/v${CADDY_VERSION}/caddy_${CADDY_VERSION}_linux_amd64.tar.gz" -o /tmp/caddy.tgz \
  && tar -xzf /tmp/caddy.tgz -C /usr/local/bin caddy \
  && rm /tmp/caddy.tgz \
