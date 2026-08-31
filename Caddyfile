@@ -20,11 +20,10 @@
 		}
 	}
 
-	# Platform health check (no secret needed, exposes nothing sensitive).
+	# Platform health check — answered by the proxy itself so the deploy is
+	# marked healthy as soon as the front door is up. Exposes nothing.
 	handle /healthz {
-		reverse_proxy 127.0.0.1:8000 {
-			header_up Host {upstream_hostport}
-		}
+		respond "ok" 200
 	}
 
 	# Everything else is invisible.
